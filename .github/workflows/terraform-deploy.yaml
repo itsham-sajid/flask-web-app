@@ -35,7 +35,7 @@ jobs:
      if: github.event_name == 'pull_request'
      shell: bash
      run: |
-        mkdir -p -m777 tfplanoutput
+        sudo mkdir -p -m777 ${{ github.workspace }}/tfplanoutput
 
    - name: Terraform format
      id: fmt
@@ -48,15 +48,15 @@ jobs:
    - name: Terraform Plan
      id: plan
      if: github.event_name == 'pull_request'
-     run: terraform plan -var 'ecr_container_image_url=${{ secrets.AWS_ECR_CONTAINER_IMAGE_URL }}' -var 'ecs_container_name=${{ secrets.AWS_ECS_CONTAINER_NAME }}' -no-color -input=false -out=tfplanoutput/tf.plan
+     run: terraform plan -var 'ecr_container_image_url=${{ secrets.AWS_ECR_CONTAINER_IMAGE_URL }}' -var 'ecs_container_name=${{ secrets.AWS_ECS_CONTAINER_NAME }}' -no-color -input=false -out=${{ github.workspace }}/tfplanoutput/tf.plan
      continue-on-error: true
 
    - name: Upload Artifact
      if: github.event_name == 'pull_request'
      uses: actions/upload-artifact@v3
      with:
-      name: tfplan
-      path: tfplanoutput/tf.plan
+      name: artifact
+      path: ${{ github.workspace }}/tfplanoutput/
       if-no-files-found: error
 
 
