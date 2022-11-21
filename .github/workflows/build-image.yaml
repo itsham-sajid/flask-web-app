@@ -85,6 +85,7 @@ jobs:
         workflow_conclusion: success
         check_artifacts: true
         search_artifacts: true
+        name: artifact
     
     - name: Terraform Apply
       #  if: github.ref == 'refs/heads/main' && github.event_name == 'push'

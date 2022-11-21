@@ -102,6 +102,13 @@ jobs:
   #    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
   #    run: terraform apply -input=false tf.plan
 
+   - name: Download Build Artifact
+    #if: github.event_name == 'push'
+     uses: actions/download-artifact@v3
+     with:
+        name: artifact
+        path: ${{ github.workspace }}/tfplanoutput/
+
  release:
    needs: terraform
    runs-on: ubuntu-latest
