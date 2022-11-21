@@ -5,26 +5,26 @@ on:
     branches: [ main ]
   pull_request: 
 
- 
 env:
- # verbosity setting for Terraform logs
- TF_LOG: INFO
- # Credentials for deployment to AWS
- AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
- AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
- BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
- # S3 bucket for the Terraform state
- 
- 
+  TF_LOG: INFO
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
 jobs:
  terraform:
    name: "Terraform Plan - Apply"
    runs-on: ubuntu-latest
    defaults:
-     run:
-       shell: bash
-       # We keep Terraform files in the terraform directory.
-       working-directory: ./terraform
+     run: |
+      shell: bash
+      export TF_CLI_ARGS_init="$TF_CLI_ARGS_init -backend-config='bucket=${{ secrets.BUCKET_TF_STATE}}'"
+      export TF_CLI_ARGS_init="$TF_CLI_ARGS_init -backend-config='key=${{ secrets.TF_STATE_KEY }}'"
+      export TF_CLI_ARGS_init="$TF_CLI_ARGS_init -backend-config='region=${{ secrets.AWS_REGION }}'"
+      export TF_CLI_ARGS_init="$TF_CLI_ARGS_init -backend-config='dynamodb_table=${{ secrets.AWS_DYNAMODB_TABLE }}'"
+      export TF_VAR_ecs_container_name="${{ secrets.AWS_ECS_CONTAINER_NAME }}"
+      export TF_VAR_ecr_container_image_url="${{ AWS_ECR_CONTAINER_IMAGE_URL }}
+
+    working-directory: ./terraform
 
 
    steps:
@@ -38,7 +38,7 @@ jobs:
 
    - name: Terraform init
      id: init
-     run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
+     run: terraform init
 
    - name: Terraform format
      id: fmt
