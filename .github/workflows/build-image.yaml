@@ -81,10 +81,11 @@ jobs:
       id: download-artifact
       uses: dawidd6/action-download-artifact@v2
       with:
-        workflow: workflow_name.yml
+        workflow: terraform-deploy.yml
         workflow_conclusion: success
         check_artifacts: true
         search_artifacts: true
+        name: artifact
     
     - name: Terraform Apply
       #  if: github.ref == 'refs/heads/main' && github.event_name == 'push'
