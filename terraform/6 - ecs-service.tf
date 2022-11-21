@@ -1,10 +1,10 @@
 
 
 resource "aws_ecs_service" "main" {
-  name                = "web-app-service"
+  name                = var.aws_ecs_service_name
   cluster             = aws_ecs_cluster.main.id
   task_definition     = aws_ecs_task_definition.main.id
-  desired_count       = 2
+  desired_count       = var.aws_ecs_service_desired_count
   launch_type         = "FARGATE"
   scheduling_strategy = "REPLICA"
 
@@ -16,11 +16,17 @@ resource "aws_ecs_service" "main" {
 
   load_balancer {
     target_group_arn = aws_alb_target_group.main.id
-    container_name   = "movie-app"
+    container_name   = var.ecs_container_name
     container_port   = "80"
   }
 
   lifecycle {
     ignore_changes = [task_definition, desired_count]
   }
+
+  tags = {
+    name = "${var.application_tag} - ECS Service"
+    env  = var.env_tag
+  }
+
 }
