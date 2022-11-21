@@ -83,6 +83,8 @@ jobs:
       with:
         workflow: workflow_name.yml
         workflow_conclusion: success
+        check_artifacts: true
+        search_artifacts: true
         path: ./terraform
     
     - name: Terraform Apply
