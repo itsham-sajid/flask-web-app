@@ -1,7 +1,7 @@
 # Creating Application Load Balancer
 
 resource "aws_lb" "main" {
-  name               = "web-app-alb"
+  name               = var.aws_alb_name
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb.id]
@@ -17,7 +17,7 @@ resource "aws_lb" "main" {
 }
 
 resource "aws_alb_target_group" "main" {
-  name        = "web-app-tg"
+  name        = var.aws_alb_target_group_name
   port        = 80
   protocol    = "HTTP"
   vpc_id      = aws_vpc.web-app.id
