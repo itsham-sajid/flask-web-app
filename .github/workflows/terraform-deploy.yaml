@@ -129,7 +129,7 @@ jobs:
 #      uses: actions/download-artifact@v3
 #      with:
 #         name: tf.plan
-#         path: ${{ github.workspace }}/tfplanoutput
+#         path: ${{ github.workspace }}/tfplanoutput/
   
 #    - name: Terraform Apply
 #     #  if: github.ref == 'refs/heads/main' && github.event_name == 'push'
