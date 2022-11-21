@@ -26,9 +26,10 @@ jobs:
      uses: hashicorp/setup-terraform@v2
      with:
       terraform_version: 1.3.0 
-
-  - name: Set Environment Variables
-    run: |
+    
+    
+   - name: Set Environment Variables
+     run: |
       #     export TF_CLI_ARGS_init="$TF_CLI_ARGS_init -backend-config='bucket=${{ secrets.BUCKET_TF_STATE}}'"
       #     export TF_CLI_ARGS_init="$TF_CLI_ARGS_init -backend-config='key=${{ secrets.TF_STATE_KEY }}'"
       #     export TF_CLI_ARGS_init="$TF_CLI_ARGS_init -backend-config='region=${{ secrets.AWS_REGION }}'"
