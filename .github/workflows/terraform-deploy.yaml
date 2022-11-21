@@ -106,7 +106,7 @@ jobs:
     #if: github.event_name == 'push'
      uses: actions/download-artifact@v3
      with:
-        name: tf.plan
+        name: artifact
         path: ${{ github.workspace }}/tfplanoutput/
 
  release:
