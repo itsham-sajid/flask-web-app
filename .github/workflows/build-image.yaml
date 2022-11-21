@@ -4,8 +4,8 @@ on:
   pull_request:
   
 jobs:
-  Build Image and Push:
-    name: Deploy
+  Deploy:
+    name:  Build Image and Push
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -24,7 +24,7 @@ jobs:
         
 
     - name: Login to Amazon ECR
-      id: login-ecr
+      id: login-ecrs
       uses: aws-actions/amazon-ecr-login@v1
 
     - name: Create .env file
