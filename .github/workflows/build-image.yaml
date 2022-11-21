@@ -1,10 +1,10 @@
-name: Build image and deploy to Amazon ECR
+name: Build image and push to Amazon ECR
 
 on:
   pull_request:
   
 jobs:
-  deploy:
+  Build Image and Push:
     name: Deploy
     runs-on: ubuntu-latest
     defaults:
