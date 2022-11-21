@@ -16,11 +16,17 @@ resource "aws_ecs_service" "main" {
 
   load_balancer {
     target_group_arn = aws_alb_target_group.main.id
-    container_name   = "movie-app"
+    container_name   = var.ecs_container_name
     container_port   = "80"
   }
 
   lifecycle {
     ignore_changes = [task_definition, desired_count]
   }
+
+  tags = {
+    name = "${var.application_tag} - ECS Service"
+    env  = var.env_tag
+  }
+
 }

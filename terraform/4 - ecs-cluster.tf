@@ -1,6 +1,13 @@
 # Create an ECS Cluster
 resource "aws_ecs_cluster" "main" {
   name = "movie-app-cluster"
+
+  tags = {
+    name = "${var.application_tag} - ECS Cluster"
+    env  = var.env_tag
+  }
+
+
 }
 
 # Required roles for the ECS cluster task definition 
