@@ -32,6 +32,7 @@ jobs:
      run: terraform init -backend-config='bucket=${{ secrets.BUCKET_TF_STATE}}' -backend-config='key=${{ secrets.TF_STATE_KEY }}' -backend-config='region=${{ secrets.AWS_REGION }}' -backend-config='dynamodb_table=${{ secrets.AWS_DYNAMODB_TABLE }}'
 
    - name: Create Artifact Folder 
+     if: github.event_name == 'pull_request'
      shell: bash
      run: |
         sudo mkdir -p -m777 ${{ github.workspace }}/tfplanoutput
