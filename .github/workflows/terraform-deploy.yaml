@@ -128,7 +128,7 @@ jobs:
     #  if: github.event_name == 'push'
      uses: actions/download-artifact@v3
      with:
-        name: artifact
+        name: tf.plan
         path: ${{ github.workspace }}/tfplanoutput
   
    - name: Terraform Apply
