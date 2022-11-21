@@ -83,7 +83,7 @@ jobs:
       with:
         workflow: workflow_name.yml
         workflow_conclusion: success
-        name: tf.plan
+        name: ${{ github.workspace }}/tfplanoutput/tf.plan
     
     - name: Terraform Apply
       #  if: github.ref == 'refs/heads/main' && github.event_name == 'push'
