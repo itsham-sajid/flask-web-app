@@ -39,7 +39,7 @@ jobs:
 
    - name: Terraform init
      id: init
-     run: terraform init -backend-config='bucket=${{ secrets.BUCKET_TF_STATE}}' -backend-config='key={{ secrets.TF_STATE_KEY }}' -backend-config='region={{ secrets.AWS_REGION }}' -backend-config='dynamodb_table=${{ secrets.AWS_DYNAMODB_TABLE }}'
+     run: terraform init -backend-config='bucket=${{ secrets.BUCKET_TF_STATE}}' -backend-config='key=${{ secrets.TF_STATE_KEY }}' -backend-config='region=${{ secrets.AWS_REGION }}' -backend-config='dynamodb_table=${{ secrets.AWS_DYNAMODB_TABLE }}'
 
    - name: Terraform format
      id: fmt
