@@ -51,44 +51,45 @@ jobs:
   #       echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
    release:
-   runs-on: ubuntu-latest
-   defaults:
-     run: 
-      working-directory: ./terraform
+    name: Terraform apply
+    runs-on: ubuntu-latest
+    defaults:
+      run: 
+        working-directory: ./terraform
 
-   steps:
-   - name: Checkout the repository to the runner
-     uses: actions/checkout@v2
+    steps:
+    - name: Checkout the repository to the runner
+      uses: actions/checkout@v2
 
-   - name: Setup Terraform with specified version on the runner
-     uses: hashicorp/setup-terraform@v2
-     with:
-      terraform_version: 1.3.0 
+    - name: Setup Terraform with specified version on the runner
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.3.0 
 
-   - name: Terraform init
-     id: init
-     run: terraform init -backend-config='bucket=${{ secrets.BUCKET_TF_STATE}}' -backend-config='key=${{ secrets.TF_STATE_KEY }}' -backend-config='region=${{ secrets.AWS_REGION }}' -backend-config='dynamodb_table=${{ secrets.AWS_DYNAMODB_TABLE }}'
+    - name: Terraform init
+      id: init
+      run: terraform init -backend-config='bucket=${{ secrets.BUCKET_TF_STATE}}' -backend-config='key=${{ secrets.TF_STATE_KEY }}' -backend-config='region=${{ secrets.AWS_REGION }}' -backend-config='dynamodb_table=${{ secrets.AWS_DYNAMODB_TABLE }}'
 
-  #  - name: Download Build Artifact
-  #   #  if: github.event_name == 'push'
-  #    uses: actions/download-artifact@v3
-  #    with:
-  #       name: artifact  
-  #       path: ${{ github.workspace }}/tfplanoutput
-  
-   - name: Download artifact
-     id: download-artifact
-     uses: dawidd6/action-download-artifact@v2
-     with:
-      workflow: workflow_name.yml
-      workflow_conclusion: success
-      name: tfplanoutput
-  
-   - name: Terraform Apply
-    #  if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-     run: terraform apply -input=false tf.plan
+    #  - name: Download Build Artifact
+    #   #  if: github.event_name == 'push'
+    #    uses: actions/download-artifact@v3
+    #    with:
+    #       name: artifact  
+    #       path: ${{ github.workspace }}/tfplanoutput
+
+    - name: Download artifact
+      id: download-artifact
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        workflow: workflow_name.yml
+        workflow_conclusion: success
+        name: tfplanoutput
+    
+    - name: Terraform Apply
+      #  if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: terraform apply -input=false tf.plan
+
+      
+      
 
     
-     
-
-  
