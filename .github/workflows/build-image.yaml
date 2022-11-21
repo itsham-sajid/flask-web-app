@@ -1,11 +1,11 @@
-name: Build image and push to Amazon ECR
+name: Build image and deploy to Amazon ECR
 
 on:
   pull_request:
   
 jobs:
-  Build Image and Push:
-    name: Deploy
+  deploy:
+    name: Build image
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -31,7 +31,6 @@ jobs:
       run: |
         touch .env
         echo API_KEY=${{ secrets.API_KEY }} > .env
-
     - name: Build, tag, and push the image to Amazon ECR
       id: build-image
       env:
