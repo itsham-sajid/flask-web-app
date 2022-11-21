@@ -29,7 +29,7 @@ jobs:
 
    - name: Set Environment Variables
      run: |
-      export TF_CLI_ARGS_init="$TF_CLI_ARGS_init -backend-config='bucket=${{ secrets.BUCKET_TF_STATE}}'
+      export TF_CLI_ARGS_init="$TF_CLI_ARGS_init -backend-config='bucket=${{ secrets.BUCKET_TF_STATE}}''
       export TF_CLI_ARGS_init="$TF_CLI_ARGS_init -backend-config='key=${{ secrets.TF_STATE_KEY }}'"
       export TF_CLI_ARGS_init="$TF_CLI_ARGS_init -backend-config='region=${{ secrets.AWS_REGION }}'"
       export TF_CLI_ARGS_init="$TF_CLI_ARGS_init -backend-config='dynamodb_table=${{ secrets.AWS_DYNAMODB_TABLE }}'"

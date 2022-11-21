@@ -1,7 +1,8 @@
 name: Build image and deploy to Amazon ECR
 
 on:
-  pull_request:
+  push:
+    branches: [ main ]
   
 jobs:
   deploy:
