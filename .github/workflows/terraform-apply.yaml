@@ -2,9 +2,7 @@ name: Terraform Apply
 
 on:
   workflow_run:
-    workflows: [terraform-plan]
-    types: 
-      - completed
+    branches: [main]
 
 env:
   TF_LOG: INFO
