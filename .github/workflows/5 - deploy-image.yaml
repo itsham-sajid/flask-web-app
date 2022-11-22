@@ -16,7 +16,6 @@ env:
 
 jobs:
   deploy:
-    needs: build
     name: Terraform Apply
     runs-on: ubuntu-latest
     defaults:
