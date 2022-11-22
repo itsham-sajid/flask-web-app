@@ -2,7 +2,7 @@ name: Terraform Apply
 
 on:
   workflow_run:
-    workflows: [terraform-apply]
+    workflows: [terraform-plan]
     branches: [main]
     types: 
       - completed
