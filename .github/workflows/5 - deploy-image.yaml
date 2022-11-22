@@ -48,5 +48,5 @@ jobs:
       continue-on-error: true
     
     - name: Terraform Apply
-      run: terraform apply -input=false -resplace=aws_ecs_task_definition.main
+      run: terraform apply -input=false -replace=aws_ecs_task_definition.main
 
