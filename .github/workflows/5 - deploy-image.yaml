@@ -42,7 +42,7 @@ jobs:
 
     - name: Terraform Plan
       id: plan
-      run: terraform plan -no-color -input=false
+      run: terraform plan -var 'ecr_container_image_url=${{ secrets.AWS_ECR_CONTAINER_IMAGE_URL }}' -var 'ecs_container_name=${{ secrets.AWS_ECS_CONTAINER_NAME }}' -no-color -input=false
       continue-on-error: true
     
     - name: Terraform Apply
