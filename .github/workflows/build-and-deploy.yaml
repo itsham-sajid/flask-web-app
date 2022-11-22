@@ -2,10 +2,11 @@ name: Build image and deploy
 
 on:
   workflow_run:
-    workflows: [terraform-apply]
-    branches: [main]
-    types: 
+    workflows: ["terraform-apply"]
+    types:
       - completed
+    branches:
+      - main
 
 env:
   TF_LOG: INFO
