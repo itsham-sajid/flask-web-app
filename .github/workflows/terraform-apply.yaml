@@ -1,11 +1,11 @@
 name: Terraform Apply
 
 on:
-  workflow_run:
-    workflows: [terraform-plan]
-    branches: [main]
-    types: 
-      - completed
+  # workflow_run:
+  #   workflows: [terraform-plan]
+  branches: [main]
+    # types: 
+    #   - completed
 
 env:
   TF_LOG: INFO
