@@ -18,6 +18,7 @@ jobs:
   deploy:
     name: Terraform Apply
     runs-on: ubuntu-latest
+    shell: bash
     defaults:
       run: 
         working-directory: ./terraform
@@ -34,8 +35,8 @@ jobs:
     - name: Set env variables
       run: |
         touch terraform.tfvars
-        echo ecr_container_image_url=${{ secrets.AWS_ECR_CONTAINER_IMAGE_URL }} > terraform.tfvars
-        echo ecs_container_name=${{ secrets.AWS_ECS_CONTAINER_NAME }} >> terraform.tfvars
+        printf "ecr_container_image_url=${{ secrets.AWS_ECR_CONTAINER_IMAGE_URL }}\n" > terraform.tfvars
+        printf "ecs_container_name=${{ secrets.AWS_ECS_CONTAINER_NAME }}\n" >> terraform.tfvars
         
 
     - name: Terraform init
