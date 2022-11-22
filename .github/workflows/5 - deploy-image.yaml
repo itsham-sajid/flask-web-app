@@ -18,7 +18,6 @@ jobs:
   deploy:
     name: Terraform Apply
     runs-on: ubuntu-latest
-    shell: bash
     defaults:
       run: 
         working-directory: ./terraform
