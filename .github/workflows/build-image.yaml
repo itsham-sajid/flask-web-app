@@ -86,7 +86,7 @@ jobs:
     
     - name: Terraform Apply
       #  if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply -input=false artifact/tf.plan
+      run: terraform apply -input=false ./terraform/artifact/tf.plan
 
       
       
