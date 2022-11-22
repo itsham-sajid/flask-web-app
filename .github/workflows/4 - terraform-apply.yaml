@@ -1,8 +1,12 @@
 name: Terraform Apply
 
 on:
-  push:
-    branches: [main]
+  workflow_run:
+    workflows: ["Build image push to ECR"]
+    types:
+      - completed
+    branches:
+      - main
 
 env:
   TF_LOG: INFO
