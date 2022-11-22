@@ -2,7 +2,7 @@ name: Build image and deploy
 
 on:
   workflow_run:
-    workflows: [terraform-plan]
+    workflows: [terraform-apply]
     branches: [main]
     types: 
       - completed
