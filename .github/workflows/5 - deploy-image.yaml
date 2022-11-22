@@ -39,12 +39,17 @@ jobs:
     - name: Terraform init
       id: init
       run: terraform init -backend-config='bucket=${{ secrets.BUCKET_TF_STATE}}' -backend-config='key=${{ secrets.TF_STATE_KEY }}' -backend-config='region=${{ secrets.AWS_REGION }}' -backend-config='dynamodb_table=${{ secrets.AWS_DYNAMODB_TABLE }}'
+      
+    - name: Terraform Destroy - ECS Task Definition
+      run: terraform destroy -target aws_ecs_task_definition.main -auto-approve
+      
+    - name: terraform-plan
+      uses: dflook/terraform-plan@v1.29.1
+      with:
+        variables: |
+          ecr_container_image_url = "${{ secrets.AWS_ECR_CONTAINER_IMAGE_URL }}"
+          ecs_container_name = "${{ secrets.AWS_ECS_CONTAINER_NAME }}"
 
-    - name: Terraform Plan
-      id: plan
-      run: terraform plan -var 'ecr_container_image_url=${{ secrets.AWS_ECR_CONTAINER_IMAGE_URL }}' -var 'ecs_container_name=${{ secrets.AWS_ECS_CONTAINER_NAME }}' -no-color -input=false -out=tf.plan
-      continue-on-error: true
-    
     - name: Terraform Apply
       run: terraform apply -input=false -replace=aws_ecs_task_definition.main
 
