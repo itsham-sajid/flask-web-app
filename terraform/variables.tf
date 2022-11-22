@@ -52,14 +52,14 @@ variable "ecs_task_definition_memory_allocation" {
 variable "ecs_cluster_name" {
   description = "Amazon ECS Cluster Name"
   type        = string
-  default     = "movie-app-cluster"
+  default     = "app-cluster"
 
 }
 
 variable "aws_ecs_service_name" {
   description = "Amazon ECS Service Name"
   type        = string
-  default     = "web-app-service"
+  default     = "app-service"
 
 }
 

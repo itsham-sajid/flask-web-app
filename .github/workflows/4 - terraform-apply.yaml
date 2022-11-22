@@ -17,6 +17,7 @@ jobs:
   deploy:
     name: Terraform Apply
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     defaults:
       run: 
         working-directory: ./terraform
@@ -42,5 +43,4 @@ jobs:
         workflow_conclusion: success
     
     - name: Terraform Apply
-      if: ${{ github.event.workflow_run.conclusion == 'success' }}
       run: terraform apply -input=false ${{ github.workspace }}/artifact/tf.plan
