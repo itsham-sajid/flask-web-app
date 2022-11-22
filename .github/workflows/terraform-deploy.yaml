@@ -1,4 +1,4 @@
-name: "Terraform Deploy"
+name: "Terraform Plan"
  
 on:
   pull_request: 
@@ -10,7 +10,7 @@ env:
 
 jobs:
  terraform:
-   name: "Terraform Plan - Apply"
+   name: "Terraform Plan"
    runs-on: ubuntu-latest
    defaults:
      run: 

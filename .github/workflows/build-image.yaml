@@ -1,4 +1,4 @@
-name: Build image and deploy to Amazon ECR
+name: Build image and deploy
 
 on:
   push:
@@ -10,7 +10,7 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   
 jobs:
-  # deploy:
+  # build:
   #   name: Build image
   #   runs-on: ubuntu-latest
   #   defaults:
@@ -51,7 +51,7 @@ jobs:
   #       echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
    release:
-    name: Terraform apply
+    name: build
     runs-on: ubuntu-latest
     defaults:
       run: 
@@ -85,7 +85,7 @@ jobs:
         workflow_conclusion: success
     
     - name: Terraform Apply
-      #  if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -input=false ${{ github.workspace }}/artifact/tf.plan
 
       
