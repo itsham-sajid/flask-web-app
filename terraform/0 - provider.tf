@@ -1,3 +1,5 @@
+# Terraform AWS provider
+
 terraform {
   required_providers {
     aws = {
@@ -7,7 +9,7 @@ terraform {
   }
 }
 
-# Configure the AWS Provider
+
 provider "aws" {
   region = "eu-west-2"
 }

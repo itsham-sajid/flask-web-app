@@ -1,4 +1,4 @@
-
+# Creating ECS Service 
 
 resource "aws_ecs_service" "main" {
   name                = var.aws_ecs_service_name

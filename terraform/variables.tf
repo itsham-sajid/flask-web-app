@@ -70,5 +70,17 @@ variable "aws_ecs_service_desired_count" {
 
 }
 
+variable "aws_route53_domain" {
+  description = "Amazon ECS Service Name"
+  type        = string
+
+}
+
+variable "aws_route53_subdomain" {
+  description = "The sub-domain for the AWS route 53 record"
+  type        = string
+
+}
+
 
 
