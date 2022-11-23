@@ -834,17 +834,33 @@ The next section explains the CI/CD pipeline and what action each worflow takes.
 
 ## Future Releases: CI/CD Workflow <a name="cicd"></a>:memo:
 
-Below is an explanation of the CI/CD workflow within the `.github/workflows` folder
+Below is an explanation of how the CI/CD pipeline works. The GitHub Actions workflow files are stored within the `.github/workflows` folder.
+
+1. Developer pushes code to GitHub Repostiry. Git Hub Actions will trigger the first workflow:
+   - >  **Quality check code** (using pylint)
+
+2. Devloper next creates a Pull request to merge changes, the next workflow that will trigger:
+   - >   **Terraform plan:** This is to report any changes to the infrastructure. The output of the Terraform plan is saved to a 
+        file which will be used later for the Terraform Apply workflow. The engineer will also see on the pull request of the Terraform plan output to observe any changes to the AWS infrastructure before merging.
+
+3. Once code is merged to the main branch the following workflows will be triggered only on the condition the Terraform Plan was
+   a success
+   - >   **Terraform Apply:** This workflow will update the AWS infrasctrure before the new container image is built and deployed.
+
+4. The next worklow will buid the new container image. This workflow will only build the image on the condition the Terraform Apply
+   workflow was a success
+
+   - > Image is built using the Dockerfile, the image is tagged and pushed to the **Amazon ECR Registry**
+
+5. The final workflow will run on the Condition the previous build image workflow was a success:
+
+   - > Deploy image to **Amazon ECS Cluster**
+ 
+
+**Below is a diagraming explain the flow of the CI/CD pipeline**
 
 
-
-
-
-
-
-
-
-
+![image](https://github.com/itsham-sajid/flask-web-app/blob/testing/images/CI_CD%20pipeline%20example.png?raw=true)
 
 
 ## Destroying Infrastructure <a name="destroy"></a>:rotating_light:
