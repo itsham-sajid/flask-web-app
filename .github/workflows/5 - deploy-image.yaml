@@ -30,4 +30,4 @@ jobs:
     - name: Update ECS Service
       run: |
         which aws
-        aws ecs update-service --cluster app-cluster --service app-service --force-new-deployment --region eu-west-2
+        aws ecs update-service --cluster app-cluster --service app-service --force-new-deployment --region ${{ secrets.AWS_REGION }}
