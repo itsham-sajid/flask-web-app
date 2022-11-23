@@ -1,3 +1,5 @@
+
+
 # Creating VPC
 
 resource "aws_vpc" "web-app" {
@@ -9,7 +11,9 @@ resource "aws_vpc" "web-app" {
   }
 }
 
-#NAT Gateway
+# Creating three Internet Gateway
+
+
 resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.web-app.id
 
@@ -20,8 +24,8 @@ resource "aws_internet_gateway" "main" {
 
 }
 
+# Creating three Public Subnets
 
-# Public Subnets
 resource "aws_subnet" "public-eu-west-2a" {
   vpc_id                  = aws_vpc.web-app.id
   cidr_block              = "10.0.1.0/24"
@@ -60,7 +64,8 @@ resource "aws_subnet" "public-eu-west-2c" {
 
 }
 
-#route table and table_associations for each of the above public subnets
+# Route tables and associations
+
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.web-app.id
 

@@ -1,4 +1,3 @@
-
 # # First retrieving the AWS Route 53 domain zone ID
 
 # data "aws_route53_zone" "main" {

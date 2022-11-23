@@ -16,6 +16,8 @@ resource "aws_lb" "main" {
 
 }
 
+# Creating Application Load Balancer Target Group
+
 resource "aws_alb_target_group" "main" {
   name        = var.aws_alb_target_group_name
   port        = 80
@@ -30,6 +32,9 @@ resource "aws_alb_target_group" "main" {
 
 
 }
+
+
+# Creating Application Load Balancer Listener
 
 resource "aws_alb_listener" "http" {
   load_balancer_arn = aws_lb.main.id

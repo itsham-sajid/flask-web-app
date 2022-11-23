@@ -31,6 +31,7 @@ The solution is completely re-usable for deploying different container images, f
     - [S3 Bucket](#s3-bucket)
     - [DynamoDB Table](#dynamodb-table)
     - [Amazon ECR Repository](#amazon-ecr-repository)
+    - [(Optional) Domain name](#domain-name)
   - [Initial Setup: :construction\_worker:](#initial-setup-construction_worker)
   - [Build \& Push Docker Image  :wrench:](#build--push-docker-image--wrench)
   - [Deploy AWS Infrastructure (Terraform) :cloud:](#deploy-aws-infrastructure-terraform-cloud)
@@ -515,6 +516,43 @@ resource "aws_ecs_service" "main" {
 ```
 
 
+The `7 - route53.tf` file points the Application Load Balancer to a domain name. For the purpose of demonstarting the Project I've already created a domain name and created Hosted Zone on AWS. The Terraform file retrives this Hosted Zone. 
+
+Next, an AWS Route 53 record (A) is created to point the ALB to the domain name.
+
+:warning:**Note**: This section in the Terraform files is commented out and the two variables `var.aws_route53_domain` & `var.aws_route53_subdomain`. If you'd like to use a domain name you can uncomment the `7 - route53.tf` file, next you'll need to created hosted zone for your domain name within the AWS Route 53 console, and provide the values to both the variables in the `7 - variables.tf` file or via the console.
+
+
+``` 
+
+7 - route53.tf
+
+# First retrieving the AWS Route 53 domain zone ID
+
+data "aws_route53_zone" "main" {
+  name         = var.aws_route53_domain
+  private_zone = false
+}
+
+
+# Creating the AWS Route 53 A Record
+
+resource "aws_route53_record" "www" {
+  zone_id = data.aws_route53_zone.main.zone_id
+  name    = var.aws_route53_subdomain
+  type    = "A"
+
+  alias {
+    name                   = aws_lb.main.dns_name
+    zone_id                = aws_lb.main.zone_id
+    evaluate_target_health = true
+  }
+}
+
+
+```
+
+
 The below `7 - variables.tf` variables file holds all variables that have been assigned. All the varialbes have `default` values while the following below have values that must be declared.
 
 * ecs_container_name
@@ -604,6 +642,9 @@ variable "aws_ecs_service_desired_count" {
 
 
 
+
+
+
 ## Prerequisites <a name="prerequisites"></a> :warning:
 ### Terraform <a name="terraform"></a>
 **Version used: v1.3.5**
@@ -682,6 +723,7 @@ To  use the Terraform state locking feature, which locks the state file and prev
 ![image](https://github.com/itsham-sajid/flask-web-app/blob/testing/images/dynamodb.png?raw=true)
 
 
+
   
 ### Amazon ECR Repository
 
@@ -692,6 +734,21 @@ aws ecr create-repository \
     --repository-name image-repo \
     --region eu-west-2 \
 ```
+
+### (Optional Domain Name) <a name="domain-name">
+
+Using a domain name is completely optional. 
+
+For the purpose of demonstarting the Project I've created a domain name and created Hosted Zone on AWS.
+
+For reference, below are the AWS guides to follow for registing a domain and creating a hosting zone:
+
+1. <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-register.html#domain-register-procedure" target="_blank">Registering a new domain
+</a>
+
+2. <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/CreatingHostedZone.html">Creating a public hosted zone
+
+
 
 
 ## Initial Setup: :construction_worker:
@@ -834,17 +891,33 @@ The next section explains the CI/CD pipeline and what action each worflow takes.
 
 ## Future Releases: CI/CD Workflow <a name="cicd"></a>:memo:
 
-Below is an explanation of the CI/CD workflow within the `.github/workflows` folder
+Below is an explanation of how the CI/CD pipeline works. The GitHub Actions workflow files are stored within the `.github/workflows` folder.
+
+1. Developer pushes code to GitHub Repostiry. Git Hub Actions will trigger the first workflow:
+   - >  **Quality check code** (using pylint)
+
+2. Devloper next creates a Pull request to merge changes, the next workflow that will trigger:
+   - >   **Terraform plan:** This is to report any changes to the infrastructure. The output of the Terraform plan is saved to a 
+        file which will be used later for the Terraform Apply workflow. The engineer will also see on the pull request of the Terraform plan output to observe any changes to the AWS infrastructure before merging.
+
+3. Once code is merged to the main branch the following workflows will be triggered only on the condition the Terraform Plan was
+   a success
+   - >   **Terraform Apply:** This workflow will update the AWS infrasctrure before the new container image is built and deployed.
+
+4. The next worklow will buid the new container image. This workflow will only build the image on the condition the Terraform Apply
+   workflow was a success
+
+   - > Image is built using the Dockerfile, the image is tagged and pushed to the **Amazon ECR Registry**
+
+5. The final workflow will run on the Condition the previous build image workflow was a success:
+
+   - > Deploy image to **Amazon ECS Cluster**
+ 
+
+**Below is a diagraming explain the flow of the CI/CD pipeline**
 
 
-
-
-
-
-
-
-
-
+![image](https://github.com/itsham-sajid/flask-web-app/blob/testing/images/CI_CD%20pipeline%20example.png?raw=true)
 
 
 ## Destroying Infrastructure <a name="destroy"></a>:rotating_light:

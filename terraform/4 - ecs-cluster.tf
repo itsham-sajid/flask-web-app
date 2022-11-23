@@ -23,7 +23,7 @@ data "aws_iam_policy_document" "ecs_task_policy" {
     ]
 
     resources = [
-      "*" # you could limit this to only the ECR repo you want
+      "*"
     ]
   }
   statement {
