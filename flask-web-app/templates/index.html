@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Movie Suggester App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  </head>
+  <section class="hero is-primary is-dark is-bold">
+    <div class="hero-body has-text-centered" >
+      <p class="title">
+       Movie Suggester App!
+      </p>
+      <p class="subtitle">
+        A very simple Flask app using the TMDB Movie API to generate a random movie from their list of current popular movies.
+      </p>
+    </div>
+  </section>
+  <body>
+  <section class="section">
+    <div class="container">
+      <h1 class="content is-large">
+      <b>Movie Suggestion:</b> {{ movie_name }}
+      </h1>
+    <div class="content is-large">
+        <br><b>Release Date:</b> {{ release_date }}
+        <br>
+        <br><b>Overview:</b> {{ overview }}
+        <br>
+        <br><b>Rating:</b> {{ rating }}
+      </div>
+      <br>
+      <img src="{{ poster_path_url }}{{ movie_poster }}" alt="Girl in a jacket" width="300" height="400">
+      <br>
+      <br>
+      <button class="button is-medium is-responsive is-primary" onClick="window.location.reload();">Another one?</button>
+    </div>
+  </section>
+  </body>
+</html>

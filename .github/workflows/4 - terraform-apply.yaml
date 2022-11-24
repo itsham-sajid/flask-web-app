@@ -1,0 +1,44 @@
+name: Terraform Apply
+
+on:
+  workflow_run:
+    workflows: ["Build image push to ECR"]
+    types:
+      - completed
+    branches:
+      - main
+
+env:
+  TF_LOG: INFO
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  
+jobs:
+  deploy:
+    name: Terraform Apply
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    defaults:
+      run: 
+        working-directory: ./terraform
+
+    steps:
+    - name: Checkout the repository to the runner
+      uses: actions/checkout@v2
+
+    - name: Setup Terraform with specified version on the runner
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.3.0 
+
+    - name: Terraform init
+      id: init
+      run: terraform init -backend-config='bucket=${{ secrets.BUCKET_TF_STATE}}' -backend-config='key=${{ secrets.TF_STATE_KEY }}' -backend-config='region=${{ secrets.AWS_REGION }}' -backend-config='dynamodb_table=${{ secrets.AWS_DYNAMODB_TABLE }}'
+    
+    - name: Terraform Plan
+      id: plan
+      run: terraform plan -var 'ecr_container_image_url=${{ secrets.AWS_ECR_CONTAINER_IMAGE_URL }}' -var 'ecs_container_name=${{ secrets.AWS_ECS_CONTAINER_NAME }}' -no-color -input=false -out=tf.plan
+      continue-on-error: true
+    
+    - name: Terraform Apply
+      run: terraform apply -input=false tf.plan
