@@ -694,7 +694,7 @@ Refer to the instructions <a href="https://python.land/installing-python" target
 
 **Note**The app has been tested to work on Python 3.8, 3.9 or 3.10
 
-This latest version of Python should also install `pip` by default, but if it's not installed run refer to the instructions <a href="https://pip.pypa.io/en/stable/installation/" target="_blank">here</a> to install:
+This latest version of Python should also install `pip` by default, but if it's not installed refer to the instructions <a href="https://pip.pypa.io/en/stable/installation/" target="_blank">here</a> to install:
 
 
 
@@ -719,7 +719,7 @@ Then you can obtain your API key from <a href="https://www.themoviedb.org/settin
 
 ### S3 Bucket
 
-The Terraform config is setup to use a S3 bucket to store the state file and use a DynamoDB table for Terraforms state locking feature. To create the bucket run the below command in the AWS CLI and changing the `values` to your own.s
+The Terraform config is setup to use a S3 bucket to store the state file and use a DynamoDB table for Terraforms state locking feature. To create the bucket run the below command in the AWS CLI and changing the `values` to your own.
 
 
 **Note:** For this project I've chosen to host all AWS infrastructure in eu-west-2, hence the `LocationConstraint` parameter is being declared as this is required for creating buckets in eu-west-2.
@@ -734,7 +734,7 @@ Run the below command to create a DynamoDB table
 
 To use the Terraform state locking feature, which locks the state file and prevents it from being written too by another user a DynamoDB must be created. Navigate to the <a href="https://eu-west-2.console.aws.amazon.com/dynamodbv2" target="_blank">here</a>. Click `create table` and setup the table as shown below:
 
-![image](https://github.com/itsham-sajid/flask-web-app/blob/testing/images/dynamodb.png?raw=true)
+![image](https://github.com/itsham-sajid/flask-web-app/blob/main/images/dynamodb.png?raw=true)
 
 
 
@@ -776,7 +776,7 @@ git clone git@github.com:itsham-sajid/flask-web-app.git
 
 The folder structure for the Flask project is as follows:
 
-![image](https://github.com/itsham-sajid/flask-web-app/blob/testing/images/flask.png?raw=true)
+![image](https://github.com/itsham-sajid/flask-web-app/blob/main/images/flask.png?raw=true)
 
 
 Before the app can be run The Movie Database (TMDB) API key must be saved as environment variable, so the app can use the API key to retrieve the list of movies: 
@@ -809,7 +809,7 @@ This will start the Flask development server on the local address: http://127.0.
 To build and push the docker image, Amazon has a list of the commands you need to run and to access these commands you just have to login into the AWS Console > Navigate to Amazon ECR > Select your repository > and select the button "View push commands"
 
 Below is a screenshot as an example:
-![image](https://github.com/itsham-sajid/flask-web-app/blob/testing/images/ecr.png?raw=true)
+![image](https://github.com/itsham-sajid/flask-web-app/blob/main/images/ecr.png?raw=true)
 
 
 Once the image is built and successfully pushed to the ECR repository the AWS Infrastructure can be provisioned via Terraform.
@@ -948,7 +948,7 @@ Below is an explanation of how the CI/CD pipeline works. The GitHub Actions work
 **Below is a diagraming explain the flow of the CI/CD pipeline**
 
 
-![image](https://github.com/itsham-sajid/flask-web-app/blob/testing/images/CI_CD%20pipeline%20example.png?raw=true)
+![image](https://raw.githubusercontent.com/itsham-sajid/flask-web-app/main/images/CI_CD%20pipeline%20example.png)
 
 
 ## Destroying Infrastructure <a name="destroy"></a>:rotating_light:
