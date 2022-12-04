@@ -688,14 +688,33 @@ aws configure
 ### Python <a name="python"></a>
 **Python 3.10.6**
 
-Depending on what OS your running the instructions will be different. 
+Depending on what OS your running the instructions will be different. However if you already have Python installed locally and a different version it's recommened to run use the `pyenv` tool, which allows you to manage multiple Python versions.
 
-Refer to the instructions <a href="https://python.land/installing-python" target="_blank">here</a> on installing for Windows, Linux or Mac.
+Refer to the instructions <a href="https://realpython.com/intro-to-pyenv/#installing-pyenv" target="_blank">here</a> on installing for Windows, Linux or Mac.
 
-**Note**The app has been tested to work on Python 3.8, 3.9 or 3.10
+Once installed you'll be prompted to add the pyenv executable to your local Shell profile e.g. `~/.bashrc` `~/.zshrc`
 
-This latest version of Python should also install `pip` by default, but if it's not installed refer to the instructions <a href="https://pip.pypa.io/en/stable/installation/" target="_blank">here</a> to install:
+Next, the below command will list all the Python packages you can install. 
 
+```
+pyenv install --list
+```
+
+For this Project install version 3.10.6
+
+```
+pyenv install 3.10.6
+```
+
+Lastly, use the global option to sets the global version on Python.
+
+```
+pyenv global 3.10.6
+```
+
+**Note:*** The app has been tested to work on Python 3.8, 3.9 or 3.10
+
+If `pip` is not installed by default, then refer to the instructions <a href="https://pip.pypa.io/en/stable/installation/" target="_blank">here</a> to install.
 
 
 
